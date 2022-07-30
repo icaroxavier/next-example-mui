@@ -22,6 +22,7 @@ function MyApp(props) {
 
   const dispatch = useAppDispatch()
   const router = useRouter()
+
   const { loadingGlobal, redirectTo, messageObject } = useAppSelector(store => store.utils)
   const [loadingRouteState, setLoadingRouteState] = useState(false);
 
@@ -46,18 +47,6 @@ function MyApp(props) {
       router.push(redirectTo).then(r => false)
     }
   }, [redirectTo, dispatch, router])
-
-  useEffect(() => {
-    // if(messageObject.message){
-    //   dispatch(clearMessage())
-    //   notification[messageObject.type || 'warning']({
-    //     message: messageObject.title || '',
-    //     description: messageObject.message
-    //   })
-    // }
-
-  }, [messageObject])
-
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {

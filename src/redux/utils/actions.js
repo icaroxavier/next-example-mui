@@ -13,7 +13,9 @@ import {
   STOP_LOADING_LOCAL,
   STOP_REDIRECTING,
   GET_MUNICIPIOS_REQUEST,
-  GET_MUNICIPIOS_SUCCESS
+  GET_MUNICIPIOS_SUCCESS,
+  START_LOADING_ENVELOPE,
+  STOP_LOADING_ENVELOPE,
 } from "../action-types";
 
 export function startLoadingLocal(){
@@ -113,5 +115,17 @@ export function getMunicipiosSuccess(data){
   return {
     type: GET_MUNICIPIOS_SUCCESS,
     data
+  }
+}
+
+export function startLoadingEnvelope(){
+  return {
+    type: START_LOADING_ENVELOPE
+  }
+}
+
+export function stopLoadingEnvelope(){
+  return {
+    type: STOP_LOADING_ENVELOPE
   }
 }

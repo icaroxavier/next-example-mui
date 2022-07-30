@@ -12,11 +12,14 @@ import {
   GET_ESTADOS_SUCCESS,
   DELETE_CEP_INFO,
   GET_MUNICIPIOS_REQUEST,
-  GET_MUNICIPIOS_SUCCESS
+  GET_MUNICIPIOS_SUCCESS,
+  START_LOADING_ENVELOPE,
+  STOP_LOADING_ENVELOPE
 } from "../action-types";
 
 const initialState = {
   loadingLocal: false,
+  loadingEnvelope: false,
   loadingGlobal: false,
   redirectTo: null,
   messageObject: {
@@ -65,6 +68,10 @@ export default function utilsReducer(state = initialState, action){
       return {...state, municipios: []}
     case GET_MUNICIPIOS_SUCCESS:
       return {...state, municipios: action.data}
+    case START_LOADING_ENVELOPE:
+      return {...state, loadingEnvelope: true}
+    case STOP_LOADING_ENVELOPE:
+      return {...state, loadingEnvelope: false}
     default:
       return state;
   }

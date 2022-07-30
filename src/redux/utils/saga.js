@@ -1,5 +1,5 @@
-import {call, put, all, takeLatest} from 'redux-saga/effects'
-import {GET_CEP_INFO_REQUEST, GET_MUNICIPIOS_REQUEST, GET_ESTADOS_REQUEST} from "../action-types";
+import { call, put, all, takeLatest } from 'redux-saga/effects'
+import { GET_CEP_INFO_REQUEST, GET_MUNICIPIOS_REQUEST, GET_ESTADOS_REQUEST } from "../action-types";
 import { sendErrorMessage, stopLoadingLocal, startLoadingLocal, getCepInfoSuccess, getEstadosSuccess, getMunicipiosSuccess } from './actions';
 import * as Utils from '../../services/utils'
 
