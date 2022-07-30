@@ -1,23 +1,25 @@
 import '../styles/global.css'
-import 'antd/dist/antd.css'
-
-import { ThemeProvider } from 'styled-components';
-import { theme } from '../styles/theme';
-import { GlobalStyles } from '../styles/global-styles';
-import {Provider} from 'react-redux';
-import store from '../redux/store'
-import withRedux from 'next-redux-wrapper'
-import withReduxSaga from 'next-redux-saga'
-import {useAppDispatch, useAppSelector} from "../redux/hooks";
-import Router, {useRouter} from "next/router";
-import {useEffect, useState} from "react";
-import {clearMessage, stopRedirecting} from "../redux/utils/actions";
-import { Spin, notification, ConfigProvider } from 'antd';
+import { wrapper } from '../redux/store'
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import Router, { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { clearMessage, stopRedirecting } from "../redux/utils/actions";
 import { AuthProvider } from '../contexts/AuthContext';
-import ptBR from 'antd/lib/locale/pt_BR';
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import Head from 'next/head';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { CacheProvider } from '@emotion/react';
+import theme from '../styles/theme';
+import createEmotionCache from '../styles/createEmotionCache';
+import { Alert, Backdrop, CircularProgress, Snackbar } from '@mui/material';
 
+const clientSideEmotionCache = createEmotionCache();
 
-function MyApp({ Component, pageProps }) {
+function MyApp(props) {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
   const dispatch = useAppDispatch()
   const router = useRouter()
   const { loadingGlobal, redirectTo, messageObject } = useAppSelector(store => store.utils)
@@ -39,39 +41,64 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     if(redirectTo){
+      console.log('trigou redirect')
       dispatch(stopRedirecting())
       router.push(redirectTo).then(r => false)
     }
-  }, [redirectTo])
+  }, [redirectTo, dispatch, router])
 
   useEffect(() => {
-    if(messageObject.message){
-      dispatch(clearMessage())
-      notification[messageObject.type || 'warning']({
-        message: messageObject.title || '',
-        description: messageObject.message
-      })
-    }
+    // if(messageObject.message){
+    //   dispatch(clearMessage())
+    //   notification[messageObject.type || 'warning']({
+    //     message: messageObject.title || '',
+    //     description: messageObject.message
+    //   })
+    // }
 
   }, [messageObject])
 
 
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    dispatch(clearMessage())
+  }
+
+
   return (
     <AuthProvider>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <ConfigProvider locale={ptBR}>
-            <Spin id="global-spinner" spinning={loadingRouteState || loadingGlobal}>
-              <Component {...pageProps} />
-              <GlobalStyles />
-            </Spin>
-          </ConfigProvider>
-        </ThemeProvider>
-      </Provider>
+        <CacheProvider value={emotionCache}>
+          <Head>
+            <meta name="viewport" content="initial-scale=1, width=device-width" />
+          </Head>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Backdrop
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={loadingGlobal || loadingRouteState}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+            <Snackbar open={!!messageObject.message} autoHideDuration={6000} onClose={handleCloseSnackbar} anchorOrigin={{vertical: "top", horizontal: "right"}}>
+              <Alert severity={messageObject.type || 'info'} sx={{ width: '100%', backgroundColor: '#333336' }} onClose={handleCloseSnackbar}>
+                {messageObject.message}
+              </Alert>
+            </Snackbar>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </CacheProvider>
     </AuthProvider>
   );
 }
 
-const makeStore = () => store
+MyApp.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  emotionCache: PropTypes.object,
+  pageProps: PropTypes.object.isRequired,
+};
 
-export default withRedux(makeStore)(withReduxSaga(MyApp))
+export default wrapper.withRedux(MyApp)

@@ -1,6 +1,6 @@
-import { AuthScreenComponent } from "../components/AuthScreen";
 import nookies from 'nookies'
 import Head from "next/head";
+import AuthScreenComponent from '../components/AuthScreen';
 
 export default function LoginPage() {
   return (
@@ -8,7 +8,7 @@ export default function LoginPage() {
       <Head>
         <title>NE - Login</title>
       </Head>
-      <AuthScreenComponent isLoginScreen/>
+      <AuthScreenComponent isLoginScreen />
     </>
   );
 }

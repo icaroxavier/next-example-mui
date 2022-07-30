@@ -8,26 +8,22 @@ import {
   STOP_REDIRECTING,
   GET_CEP_INFO_REQUEST,
   GET_CEP_INFO_SUCCESS,
-  GET_CIDADES_REQUEST,
-  GET_CIDADES_SUCCESS,
   GET_ESTADOS_REQUEST,
   GET_ESTADOS_SUCCESS,
   DELETE_CEP_INFO,
   GET_MUNICIPIOS_REQUEST,
   GET_MUNICIPIOS_SUCCESS
-} from "../actionTypes";
+} from "../action-types";
 
 const initialState = {
   loadingLocal: false,
   loadingGlobal: false,
   redirectTo: null,
   messageObject: {
-    title: null,
+    type: null,
     message: null,
-    type: null
   },
   estados: [],
-  cidades: [],
   municipios: [],
   cepInfo: null
 }
@@ -50,7 +46,6 @@ export default function utilsReducer(state = initialState, action){
       return {
         ...state,
         messageObject: {
-          title: action.params.title,
           message: action.params.message,
           type: action.params.type
         }}
@@ -60,10 +55,6 @@ export default function utilsReducer(state = initialState, action){
       return {...state, estados: []}
     case GET_ESTADOS_SUCCESS:
       return {...state, estados: action.data}
-    case GET_CIDADES_REQUEST:
-      return {...state, cidades: []}
-    case GET_CIDADES_SUCCESS:
-      return {...state, cidades: action.data}
     case GET_CEP_INFO_REQUEST:
       return {...state, cepInfo: null}
     case GET_CEP_INFO_SUCCESS:

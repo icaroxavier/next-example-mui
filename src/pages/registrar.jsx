@@ -1,4 +1,3 @@
-import { AuthScreenComponent } from "../components/AuthScreen";
 import nookies from 'nookies'
 import Head from "next/head";
 
@@ -8,7 +7,6 @@ export default function RegistrarPage() {
       <Head>
         <title>NE - Registrar</title>
       </Head>
-      <AuthScreenComponent isLoginScreen={false}/>
     </>
   )
 }
