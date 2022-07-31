@@ -2,8 +2,9 @@ import { AppEnvelopeWrapper } from './styles';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useRouter } from 'next/router';
-import { Backdrop, CircularProgress } from '@mui/material';
+import { Backdrop, Button, CircularProgress } from '@mui/material';
 import { useAppSelector } from '../../redux/hooks';
+import Image from 'next/image';
 
 
 export function AppEnvelope(props) {
@@ -14,7 +15,12 @@ export function AppEnvelope(props) {
 
   return (
     <AppEnvelopeWrapper>
+      <div className="app-envelope-top-bar">
+        <Image src={'/images/logo.png'} width='80px' height='80px' alt='Logo image'></Image>
+        <span className='message-span'>Olá, {user?.name ?? 'User'}</span>
+        <Button className='logout-button' variant='outlined' color='error' onClick={logout}>Sair</Button>
 
+      </div>
       <div className='app-envelope-content'>
         {props.children}
         <Backdrop

@@ -59,6 +59,8 @@ const Link = React.forwardRef(function Link(props, ref) {
     ...other
   } = props;
 
+  console.log('nolinkstyle', noLinkStyle);
+
   const router = useRouter();
   const pathname = typeof href === 'string' ? href : href.pathname;
   const className = clsx(classNameProps, {

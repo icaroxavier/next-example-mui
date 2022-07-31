@@ -1,5 +1,3 @@
-import { useContext } from "react"
-import { AuthContext } from "../../contexts/AuthContext"
 import nookies from 'nookies'
 import DashboardScreenComponent from "../../components/DashboardScreen"
 import Head from "next/head"

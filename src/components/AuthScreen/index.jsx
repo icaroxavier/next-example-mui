@@ -1,16 +1,17 @@
 import { Button } from "@mui/material";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 import { useAppDispatch } from "../../redux/hooks";
-import { sendMessage, startRedirecting } from "../../redux/utils/actions";
 import { AuthScreenWrapper } from "./styles";
 
 export default function AuthScreenComponent(props){
 
-  const dispatch = useAppDispatch()
+  const { signIn } = useContext(AuthContext)
 
   return (
     <AuthScreenWrapper>
       <h1>AuthScreen</h1>
-      <Button variant='outlined' onClick={() => dispatch(startRedirecting('/'))}>Botão JavaScript</Button>
+      <Button variant='outlined' onClick={() => signIn({})}>Botão JavaScript</Button>
     </AuthScreenWrapper>
   )
 }

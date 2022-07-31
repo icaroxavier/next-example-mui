@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
         logout()
       })
     }
-  }, [])
+  }, [dispatch])
 
   async function register(params) {
     try {
