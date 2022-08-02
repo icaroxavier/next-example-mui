@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
         setUser(response.data)
       }).catch(error => {
         if(error.response?.status !== 500){
-          dispatch(sendErrorMessage(error.response?.data?.message))
+          dispatch(sendErrorMessage(error.response?.data?.message || 'Erro ao recuperar as suas informações no nosso sistema, tente novamente mais tarde.'))
         } else {
           dispatch(sendErrorMessage("Erro ao recuperar as suas informações no nosso sistema, tente novamente mais tarde."))
         }
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
       token && Router.push('/dashboard')
     } catch (error) {
       if(error.response?.status !== 500){
-        dispatch(sendErrorMessage(error.response?.data?.message))
+        dispatch(sendErrorMessage(error.response?.data?.message || "Erro ao cadastrar, caso persista, entre em contato com o suporte."))
       } else {
         dispatch(sendErrorMessage("Erro ao cadastrar, caso persista, entre em contato com o suporte."))
       }
@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }) => {
       if(error.response?.status === 401){
         dispatch(sendErrorMessage("Credenciais inválidas."))
       } else if(error.response?.status !== 500) {
-        dispatch(sendErrorMessage(error.response?.data?.message))
+        dispatch(sendErrorMessage(error.response?.data?.message || "Erro ao logar, caso persista, entre em contato com o suporte."))
       } else {
         dispatch(sendErrorMessage("Erro interno no servidor, entre em contato com o suporte."))
       }
